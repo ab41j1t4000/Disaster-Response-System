@@ -1,0 +1,87 @@
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+     <title>Control Panel</title>
+     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+     <link rel="stylesheet" type="text/css" href="demo.css" />
+     <link rel="stylesheet" type="text/css" href="styles.css" />
+     <link rel="stylesheet" type="text/css" href="../template.css" />
+     <script type="text/javascript" src='../test-credentials.js'></script>
+     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+   <script type="text/javascript" src='../js-examples-rendering-helpers/iframe-height.js'></script>
+    </head>
+    <body>
+
+      <div id="mapContainer"></div>
+        </div>
+        </center>
+<script type="text/javascript" src='demo.js'></script>
+    </body>
+    <script>
+    var platform = new H.service.Platform({
+  'apikey': 'tAnBDhoDAvE3HDFwl8ze8HIDY0n0Trtz0OgzHOgTGUU'
+});
+// Retrieve the target element for the map:
+var targetElement = document.getElementById('mapContainer');
+
+// Get default map types from the platform object:
+var defaultLayers = platform.createDefaultLayers();
+
+// Instantiate the map:
+var map = new H.Map(
+  document.getElementById('mapContainer'),
+  defaultLayers.vector.normal.map,
+  {
+    zoom: 7,
+    center: { lat: 10.8505, lng: 76.2711 }
+  });
+
+// Create the parameters for the reverse geocoding request:
+var reverseGeocodingParameters = {
+      prox: '10.8505,76.2711,150',
+      mode: 'retrieveAddresses',
+      maxresults: 1
+    };
+var ui = H.ui.UI.createDefault(map, defaultLayers);
+// Define a callback function to process the response:
+function onSuccess(result) {
+  var location = result.Response.View[0].Result[0];
+
+  // Create an InfoBubble at the returned location with
+  // the address as its contents:
+
+  ui.addBubble(new H.ui.InfoBubble({
+      lat: location.Location.DisplayPosition.Latitude,
+      lng: location.Location.DisplayPosition.Longitude
+     }, { content: location.Location.Address.Label }));
+};
+
+  var londonMarker = new H.map.Marker({lat:10.8505, lng:76.2711});
+map.addObject(londonMarker);
+
+var marker2 = new H.map.Marker({lat:11.8689, lng:75.3556});
+map.addObject(marker2);
+
+var marker3 = new H.map.Marker({lat:11.2588, lng:75.7804});
+map.addObject(marker3);
+
+var marker4 = new H.map.Marker({lat:9.931233, lng:76.267303});
+map.addObject(marker4);
+// Get an instance of the geocoding service:
+var geocoder = platform.getGeocodingService();
+
+// Call the geocode method with the geocoding parameters,
+// the callback and an error callback function (called if a
+// communication error occurs):
+geocoder.reverseGeocode(
+    reverseGeocodingParameters,
+    onSuccess,
+    function(e) { alert(e); });
+
+    </script>
+</html>

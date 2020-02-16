@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Disaster Rescue</title>
+    </head>
+    <body>
+
+      <center><form id="location" name="location" method="post" action="/">
+      <input type="hidden" name="lat" id="lat" class="lat" value="">
+      <input type="hidden" name="long" id="long" class="long" value="">
+      <input type="hidden" name="time" id="time" class="time" value="">
+      <br>
+            <input type="text" maxlength="10" placeholder="Enter your mobile number" name="number"><br><br>
+            <button type="submit" name="button" onclick="setValue();">Enter</button>
+        </form>
+</center>
+<script>
+var gps = navigator.geolocation.getCurrentPosition(
+function (position) {
+for (key in position.coords) {
+document.write(key+’: ‘+ position.coords[key]);
+document.write (‘<br>‘);
+}
+});
+</script>
+    </body>
+    <script>
+
+    var latitude="";
+    var longitude="";
+    var timestamp="";
+
+       function getLocation() {
+
+          if(navigator.geolocation) {
+
+             // timeout at 60000 milliseconds (60 seconds)
+             var options = {timeout:60000};
+             navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+          } else {
+             alert("Sorry, browser does not support geolocation!");
+          }
+       }
+
+       function showLocation(position) {
+             latitude = position.coords.latitude;
+             longitude = position.coords.longitude;
+             timestamp = position.coords.timestamp;
+             alert(position);https://localhost/cp
+          }
+
+          function errorHandler(err) {
+             if(err.code == 1) {
+                alert("Error: Access is denied!");
+             } else if( err.code == 2) {
+                alert("err");
+             }
+          }
+
+
+
+    function setValue(){
+    document.getElementByClassName("lat").innerText = latitude;
+
+    document.getElementById("lat").setAttribute("value",latitude);
+    document.getElementById("long").setAttribute("value",longitude);
+    document.getElementById("time").setAttribute("value",timestamp);
+
+    alert(latitude);
+</script>
+</html>
